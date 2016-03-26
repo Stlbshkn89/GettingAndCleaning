@@ -16,7 +16,6 @@
 
 #### 2. What I've done
 The following files are used in this project:
-* 'features_info.txt': Shows information about the variables used on the feature vector.
 * 'features.txt': List of all features.
 * 'activity_labels.txt': Links the class labels with their activity name.
 * 'train/X_train.txt': Training set.
@@ -24,3 +23,12 @@ The following files are used in this project:
 * 'test/X_test.txt': Test set.
 * 'test/y_test.txt': Test labels.
 * 'train/subject_train.txt', 'test/subject_test.txt': Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30. 
+
+Let's load test and train data sets, subjects and labels for measurements
+    library(dplyr)
+    test <- read.table("./test/X_test.txt")
+    test_labels <- read.table("./test/y_test.txt")
+    test_subj <- read.table("./test/subject_test.txt")
+    train <- read.table("./train/X_train.txt")
+    train_labels <- read.table("./train/y_train.txt")
+    train_subj <- read.table("./train/subject_train.txt")
