@@ -1,5 +1,5 @@
 # Getting And Cleaning Data 
-## Data Science Spealization
+## Data Science Specialization
 ### Course Project
 #### 1. What should I do?
 > Here are the data for the project:
@@ -34,6 +34,7 @@ Let's load test and train data sets, subjects and labels for measurements
     train_labels <- read.table("./train/y_train.txt")
     train_subj <- read.table("./train/subject_train.txt")
     feat <- read.table("features.txt")
+    activity_labels <- read.table("activity_labels.txt")
     
 Then we should bind columns of training and test data frames with activity names and subject who performed activities
 
@@ -46,3 +47,33 @@ Let's merge dataframes and assign the names to the variables
     colnames(train) <- c("Subject", "Activity", as.character(feat$V2))
     df <- rbind(train, test)
 
+Let's name activities by using factor labels
+
+    df$Activity <- factor(df$Activity, labels = activity_labels$V2)
+    
+Now we have a data frame which:
+> 1. Merges the training and the test sets to create one data set.
+> 3. Uses descriptive activity names to name the activities in the data set
+> 4. Appropriately labels the data set with descriptive variable names.
+
+But if we try to extract mean() and std() measurements using 'select' we have an error:
+
+    Error: Duplicated Column name.
+    
+So we use a hint by stackoverflow
+
+    valid_column_names <- make.names(names=names(df), unique=TRUE, allow = TRUE)
+    names(df) <- valid_column_names
+    
+The problem is solved and now it's easy to extract mean() and std ()
+
+    df1 <- select(df, Subject, Activity, grep("mean[.]|std[.]", colnames(df)))
+    
+Let's make independent tidy data set with the average of each variable for each activity and each subject.
+
+    df1 <- group_by(df1, Subject, Activity)
+    answer <- summarise_each(df1, funs(mean))
+
+Finally let's save it to output.txt
+
+    write.table(answer, "output.txt", row.names = FALSE)
