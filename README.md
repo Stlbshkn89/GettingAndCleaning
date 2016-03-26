@@ -25,6 +25,7 @@ The following files are used in this project:
 * 'train/subject_train.txt', 'test/subject_test.txt': Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30. 
 
 Let's load test and train data sets, subjects and labels for measurements
+
     library(dplyr)
     test <- read.table("./test/X_test.txt")
     test_labels <- read.table("./test/y_test.txt")
