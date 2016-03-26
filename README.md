@@ -33,8 +33,16 @@ Let's load test and train data sets, subjects and labels for measurements
     train <- read.table("./train/X_train.txt")
     train_labels <- read.table("./train/y_train.txt")
     train_subj <- read.table("./train/subject_train.txt")
+    feat <- read.table("features.txt")
     
 Then we should bind columns of training and test data frames with activity names and subject who performed activities
 
     test <- cbind(test_subj$V1, test_labels$V1, test)
     train <- cbind(train_subj$V1, train_labels$V1, train)
+
+Let's merge dataframes and assign the names to the variables
+
+    colnames(test) <- c("Subject", "Activity", as.character(feat$V2))
+    colnames(train) <- c("Subject", "Activity", as.character(feat$V2))
+    df <- rbind(train, test)
+
